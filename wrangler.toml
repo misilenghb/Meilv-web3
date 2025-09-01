@@ -1,0 +1,21 @@
+main = ".open-next/worker.js"
+name = "meilv-web"
+compatibility_date = "2025-03-25"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+# Environment variables for production
+[env.production.vars]
+NODE_ENV = "production"
+
+# Environment variables for development
+[env.development.vars]
+NODE_ENV = "development"
+
+# Secrets (these should be set via wrangler secret put)
+# SUPABASE_URL = "your-supabase-url"
+# SUPABASE_ANON_KEY = "your-supabase-anon-key"
+# SUPABASE_SERVICE_ROLE_KEY = "your-supabase-service-role-key"

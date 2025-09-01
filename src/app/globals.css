@@ -1,0 +1,762 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* 🎨 Enhanced Color Palette - Luxury Pink Theme */
+  --brand-primary: #e91e63; /* 主品牌色 - 深粉 */
+  --brand-secondary: #f06292; /* 次要品牌色 - 中粉 */
+  --brand-tertiary: #f8bbd9; /* 第三品牌色 - 浅粉 */
+  --brand-light: #fce4ec; /* 极浅粉 */
+  --brand-gradient: linear-gradient(135deg, #e91e63 0%, #f06292 50%, #f8bbd9 100%);
+
+  /* 🌈 Accent Colors */
+  --accent-purple: #9c27b0; /* 紫色强调 */
+  --accent-blue: #2196f3; /* 蓝色强调 */
+  --accent-success: #4caf50; /* 成功绿 */
+  --accent-warning: #ff9800; /* 警告橙 */
+  --accent-error: #f44336; /* 错误红 */
+
+  /* 🎯 Neutral Colors */
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #eeeeee;
+  --neutral-300: #e0e0e0;
+  --neutral-400: #bdbdbd;
+  --neutral-500: #9e9e9e;
+  --neutral-600: #757575;
+  --neutral-700: #616161;
+  --neutral-800: #424242;
+  --neutral-900: #212121;
+
+  /* 💫 Glass & Blur Effects */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(233, 30, 99, 0.15);
+  --glass-shadow: 0 8px 32px rgba(233, 30, 99, 0.12);
+  --glass-blur: blur(20px) saturate(1.4);
+
+  /* 🌟 Shadows */
+  --shadow-sm: 0 2px 8px rgba(233, 30, 99, 0.08);
+  --shadow-md: 0 4px 16px rgba(233, 30, 99, 0.12);
+  --shadow-lg: 0 8px 32px rgba(233, 30, 99, 0.16);
+  --shadow-xl: 0 16px 64px rgba(233, 30, 99, 0.20);
+
+  /* 🎭 Animation Curves */
+  --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@theme inline {
+  --color-background: var(--bg-0);
+  --color-foreground: var(--fg-0);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Global background with pink gradient */
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  color: var(--neutral-800) !important;
+  line-height: 1.6;
+  font-weight: 400;
+  background:
+    /* 🌟 Luxury gradient orbs */
+    radial-gradient(1400px 800px at 15% -5%, rgba(233, 30, 99, 0.08), transparent 65%),
+    radial-gradient(1200px 600px at 85% 15%, rgba(240, 98, 146, 0.06), transparent 65%),
+    radial-gradient(1000px 500px at 5% 85%, rgba(248, 187, 217, 0.05), transparent 65%),
+    radial-gradient(800px 400px at 95% 95%, rgba(252, 228, 236, 0.04), transparent 65%),
+    /* 🎨 Base gradient */
+    linear-gradient(135deg,
+      #ffffff 0%,
+      rgba(252, 228, 236, 0.3) 25%,
+      rgba(248, 187, 217, 0.2) 50%,
+      rgba(240, 98, 146, 0.1) 75%,
+      #ffffff 100%
+    ) !important;
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 🌟 Advanced Glass Morphism System */
+.glass {
+  background: var(--glass-bg) !important;
+  background-image: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(252, 228, 236, 0.8)
+  ) !important;
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  z-index: 1;
+}
+
+/* 🎭 Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(20px)) {
+  .glass {
+    background: rgba(255, 255, 255, 0.92) !important;
+    background-image: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(252, 228, 236, 0.95)
+    ) !important;
+  }
+}
+
+/* 💎 Premium Glass Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.88) !important;
+  background-image: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95),
+    rgba(252, 228, 236, 0.85),
+    rgba(248, 187, 217, 0.1)
+  ) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  backdrop-filter: blur(24px) saturate(1.5);
+  border: 1px solid rgba(233, 30, 99, 0.12) !important;
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(233, 30, 99, 0.05) !important;
+  border-radius: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s var(--ease-out-cubic);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.6s var(--ease-out-cubic);
+  z-index: 1;
+}
+
+.glass-card:hover::before {
+  left: 100%;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    var(--shadow-xl),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(233, 30, 99, 0.08) !important;
+  border-color: rgba(233, 30, 99, 0.2) !important;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.8) !important;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(253,242,248,0.85)) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid rgba(236, 72, 153, 0.2) !important;
+  box-shadow: 0 10px 30px rgba(236, 72, 153, 0.15), 0 1px 8px rgba(255, 255, 255, 0.8) inset !important;
+  border-radius: 1.5rem; /* rounded-3xl */
+  padding: 1.5rem; /* p-6 */
+}
+@media (min-width: 768px) {
+  .glass-card {
+    padding: 2rem; /* md:p-8 */
+    border-radius: 2rem; /* md:rounded-4xl */
+  }
+}
+
+/* 🚀 Premium Navigation Bar */
+.nav-blur {
+  background: rgba(255, 255, 255, 0.88) !important;
+  background-image: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95),
+    rgba(252, 228, 236, 0.85),
+    rgba(248, 187, 217, 0.1)
+  ) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.6) !important;
+  backdrop-filter: blur(24px) saturate(1.6) !important;
+  border-bottom: 1px solid rgba(233, 30, 99, 0.12) !important;
+  box-shadow:
+    0 4px 32px rgba(233, 30, 99, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  position: relative;
+  z-index: 1000;
+}
+
+/* 🎨 Logo Text Styling */
+.logo-text {
+  background: linear-gradient(135deg, #e91e63, #f06292, #9c27b0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #e91e63; /* 备用颜色 */
+}
+
+/* 确保在不支持背景剪切的浏览器中显示备用颜色 */
+@supports not (background-clip: text) {
+  .logo-text {
+    color: #e91e63 !important;
+    background: none !important;
+  }
+}
+
+.nav-blur::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(233, 30, 99, 0.3),
+    transparent
+  );
+}
+
+/* 🎯 Navigation Fallback */
+@supports not (backdrop-filter: blur(24px)) {
+  .nav-blur {
+    background: rgba(255, 255, 255, 0.96) !important;
+    background-image: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.99),
+      rgba(252, 228, 236, 0.95)
+    ) !important;
+  }
+}
+
+/* Mobile tweaks */
+.safe-area {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.h-safe-area-bottom {
+  height: env(safe-area-inset-bottom);
+}
+
+/* 🚀 Premium Bottom Navigation Bar */
+.bottom-nav-blur {
+  background: rgba(255, 255, 255, 0.95) !important;
+  background-image: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(252, 228, 236, 0.9),
+    rgba(248, 187, 217, 0.1)
+  ) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.8) !important;
+  backdrop-filter: blur(20px) saturate(1.8) !important;
+  box-shadow:
+    0 -4px 32px rgba(233, 30, 99, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  position: relative;
+}
+
+.bottom-nav-blur::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(233, 30, 99, 0.2),
+    transparent
+  );
+}
+
+/* 底部导航动画 */
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 0.6s ease-in-out;
+}
+
+/* 🎨 Enhanced Message Bubbles */
+.message-bubble-sent {
+  background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+  color: white;
+  border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  position: relative;
+}
+
+.message-bubble-sent::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid #ec4899;
+  border-bottom: 8px solid transparent;
+}
+
+.message-bubble-received {
+  background: rgba(255, 255, 255, 0.9);
+  color: #374151;
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  border-radius: 1.5rem 1.5rem 1.5rem 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.message-bubble-received::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-right: 8px solid rgba(255, 255, 255, 0.9);
+  border-bottom: 8px solid transparent;
+}
+
+/* 消息输入框优化 */
+.message-input {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(236, 72, 153, 0.2);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  resize: none;
+}
+
+.message-input:focus {
+  border-color: #ec4899;
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+  background: white;
+}
+
+.message-input::placeholder {
+  color: #9ca3af;
+}
+
+/* 消息淡入动画 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* 移动端消息优化 */
+@media (max-width: 768px) {
+  .message-bubble-sent,
+  .message-bubble-received {
+    max-width: 85%;
+    font-size: 0.875rem;
+  }
+
+  .message-input {
+    font-size: 1rem; /* 防止iOS缩放 */
+  }
+
+  /* 为底部导航栏留出空间 */
+  .messages-container {
+    padding-bottom: 6rem;
+  }
+}
+
+/* Links & buttons accents */
+.text-accent { color: var(--brand-primary); }
+.bg-accent { background-color: var(--brand-primary); }
+.bg-accent:hover { background-color: var(--brand-secondary); }
+.text-rose { color: var(--accent-error); }
+.bg-rose { background-color: var(--accent-error); }
+.bg-rose:hover { background-color: #dc2626; }
+
+/* Enhanced focus states for accessibility */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:ring-offset-2 focus:ring-offset-transparent;
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 📱 Enhanced Mobile Experience */
+@media (max-width: 768px) {
+  /* 触摸目标优化 */
+  .touch-target {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  /* 移动端玻璃效果优化 */
+  .glass-card {
+    border-radius: 1rem;
+    backdrop-filter: blur(16px) saturate(1.3);
+    padding: 1rem !important; /* 减少移动端内边距 */
+    margin: 0.5rem 0 !important; /* 减少移动端外边距 */
+  }
+
+  .nav-blur {
+    backdrop-filter: blur(16px) saturate(1.4);
+    padding: 0.75rem 1rem !important; /* 减少导航栏内边距 */
+  }
+
+  /* 移动端文字大小优化 */
+  .mobile-text-sm { font-size: 0.875rem !important; }
+  .mobile-text-base { font-size: 1rem !important; }
+  .mobile-text-lg { font-size: 1.125rem !important; }
+  .mobile-text-xl { font-size: 1.25rem !important; }
+  .mobile-text-2xl { font-size: 1.5rem !important; }
+  .mobile-text-3xl { font-size: 1.875rem !important; }
+  .mobile-text-4xl { font-size: 2.25rem !important; }
+
+  /* 移动端间距优化 */
+  .mobile-p-2 { padding: 0.5rem !important; }
+  .mobile-p-3 { padding: 0.75rem !important; }
+  .mobile-p-4 { padding: 1rem !important; }
+  .mobile-p-6 { padding: 1.5rem !important; }
+  .mobile-m-2 { margin: 0.5rem !important; }
+  .mobile-m-4 { margin: 1rem !important; }
+  .mobile-mb-4 { margin-bottom: 1rem !important; }
+  .mobile-mb-6 { margin-bottom: 1.5rem !important; }
+  .mobile-mb-8 { margin-bottom: 2rem !important; }
+
+  /* 移动端按钮优化 */
+  .btn-primary {
+    padding: 0.875rem 1.5rem !important;
+    font-size: 1rem !important;
+    min-height: 48px;
+  }
+
+  .btn-secondary {
+    padding: 0.875rem 1.5rem !important;
+    font-size: 1rem !important;
+    min-height: 48px;
+  }
+
+  /* 移动端网格优化 */
+  .mobile-grid-1 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+  .mobile-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+
+  /* 移动端隐藏/显示 */
+  .mobile-hidden { display: none !important; }
+  .mobile-block { display: block !important; }
+  .mobile-flex { display: flex !important; }
+
+  /* 移动端导航优化 */
+  .mobile-nav-item {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 移动端卡片优化 */
+  .mobile-card {
+    margin: 0.5rem !important;
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+  }
+
+  /* 移动端服务图标优化 */
+  .service-icon {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    font-size: 1.25rem !important;
+  }
+
+  /* 移动端统计数据优化 */
+  .mobile-stat-number {
+    font-size: 1.875rem !important;
+    line-height: 2.25rem !important;
+  }
+
+  .mobile-stat-label {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* 🎬 Advanced Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(233, 30, 99, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(233, 30, 99, 0.5);
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 🌟 Animation Classes */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s var(--ease-out-cubic) forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s var(--ease-out-cubic) forwards;
+}
+
+/* 🎯 Stagger Animation Delays */
+.animate-delay-100 { animation-delay: 0.1s; }
+.animate-delay-200 { animation-delay: 0.2s; }
+.animate-delay-300 { animation-delay: 0.3s; }
+.animate-delay-400 { animation-delay: 0.4s; }
+.animate-delay-500 { animation-delay: 0.5s; }
+
+/* Pink theme specific styles */
+.hero-gradient {
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 30%, #fbcfe8 70%, #ffffff 100%);
+}
+
+/* 🎨 Premium Card System */
+.card-pink {
+  background: rgba(255, 255, 255, 0.92);
+  background-image: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(252, 228, 236, 0.9),
+    rgba(248, 187, 217, 0.1)
+  );
+  border: 1px solid rgba(233, 30, 99, 0.12);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-md);
+  transition: all 0.4s var(--ease-out-cubic);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-pink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+.card-pink:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+  border-color: rgba(233, 30, 99, 0.2);
+}
+
+/* 🎭 Service Icons */
+.service-icon {
+  font-size: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg,
+    rgba(233, 30, 99, 0.1),
+    rgba(240, 98, 146, 0.05)
+  );
+  transition: all 0.3s var(--ease-out-cubic);
+}
+
+.service-icon:hover {
+  transform: scale(1.1) rotate(5deg);
+  background: linear-gradient(135deg,
+    rgba(233, 30, 99, 0.15),
+    rgba(240, 98, 146, 0.1)
+  );
+}
+
+/* 🚀 Premium Button System */
+.btn-primary {
+  background: linear-gradient(135deg,
+    var(--brand-primary) 0%,
+    var(--brand-secondary) 100%
+  );
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s var(--ease-out-cubic);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.6s var(--ease-out-cubic);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(1.02);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--brand-primary);
+  border: 2px solid rgba(233, 30, 99, 0.2);
+  border-radius: 2rem;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s var(--ease-out-cubic);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-secondary:hover {
+  background: rgba(233, 30, 99, 0.05);
+  border-color: rgba(233, 30, 99, 0.4);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.card-pink {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(236, 72, 153, 0.1);
+  box-shadow: 0 4px 20px rgba(236, 72, 153, 0.1);
+  border-radius: 1.5rem;
+}
+
+.card-pink:hover {
+  box-shadow: 0 8px 30px rgba(236, 72, 153, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Service icons */
+.service-icon {
+  width: 2rem;
+  height: 2rem;
+  background: linear-gradient(135deg, #ec4899, #f472b6);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1rem;
+}
+
+/* 🗨️ 消息滚动样式 */
+.messages-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(236, 72, 153, 0.3) transparent;
+}
+
+.messages-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: rgba(236, 72, 153, 0.3);
+  border-radius: 3px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(236, 72, 153, 0.5);
+}
