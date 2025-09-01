@@ -5,7 +5,6 @@
 
 import { createClient } from "@supabase/supabase-js";
 import {
-  runtime,
   getEnvVar,
   createErrorResponse,
   createSuccessResponse,
@@ -15,7 +14,7 @@ import {
 } from "@/lib/edge-runtime";
 
 // 导出运行时配置
-export { runtime };
+export const runtime = 'edge';
 
 // 创建Supabase客户端
 function createSupabaseClient() {

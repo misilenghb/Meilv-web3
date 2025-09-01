@@ -3,10 +3,12 @@ name: Deploy to Cloudflare Workers
 on:
   push:
     branches:
+      - master
       - main
       - develop
   pull_request:
     branches:
+      - master
       - main
 
 env:
@@ -27,8 +29,17 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
+      - name: Clean npm cache
+        run: npm cache clean --force
+
       - name: Install dependencies
-        run: npm ci
+        run: |
+          # 删除可能存在的node_modules和package-lock.json
+          rm -rf node_modules package-lock.json
+          # 重新安装依赖
+          npm install
+          # 生成新的package-lock.json
+          npm install --package-lock-only
 
       - name: Generate Cloudflare types
         run: npm run cf-typegen
@@ -56,7 +67,7 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Deploy to Cloudflare Workers (Production)
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

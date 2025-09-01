@@ -18,11 +18,8 @@ const nextConfig = {
     loaderFile: './src/lib/cloudflare-image-loader.js',
   },
 
-  // 实验性功能配置
-  experimental: {
-    // 启用 Server Components
-    serverComponentsExternalPackages: ['@supabase/supabase-js'],
-  },
+  // 服务器外部包配置
+  serverExternalPackages: ['@supabase/supabase-js'],
 
   // 环境变量配置
   env: {
