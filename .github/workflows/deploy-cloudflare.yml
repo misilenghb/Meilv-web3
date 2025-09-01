@@ -45,36 +45,29 @@ jobs:
         run: npm run cf-typegen
         continue-on-error: true
 
-      - name: Build application
-        run: npm run build
+      - name: Build for Cloudflare Workers
+        run: npm run build:cloudflare
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
-      - name: Build for Cloudflare Workers
-        run: npx opennextjs-cloudflare build
-
-      - name: Deploy to Cloudflare Workers (Preview)
+      - name: Deploy to Cloudflare Pages (Preview)
         if: github.event_name == 'pull_request'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --env development
-          secrets: |
-            SUPABASE_SERVICE_ROLE_KEY
+          command: pages deploy .open-next/assets --project-name=meilv-web --branch=preview
         env:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
-      - name: Deploy to Cloudflare Workers (Production)
+      - name: Deploy to Cloudflare Pages (Production)
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --env production
-          secrets: |
-            SUPABASE_SERVICE_ROLE_KEY
+          command: pages deploy .open-next/assets --project-name=meilv-web --branch=main
         env:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 

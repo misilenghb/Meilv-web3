@@ -5,11 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cloudflare": "next build && npx @opennextjs/cloudflare@latest build",
     "start": "next start",
     "lint": "eslint",
     "init-db": "node scripts/init-supabase-data.js",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "npm run build:cloudflare && wrangler pages dev .open-next/assets --compatibility-date=2025-03-25",
+    "deploy": "npm run build:cloudflare && wrangler pages deploy .open-next/assets",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
