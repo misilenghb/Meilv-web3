@@ -14,23 +14,134 @@ const supabaseUrl = getEnvVar('NEXT_PUBLIC_SUPABASE_URL', 'https://placeholder.s
 const supabaseAnonKey = getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY', 'placeholder-key');
 const supabaseServiceKey = getEnvVar('SUPABASE_SERVICE_ROLE_KEY');
 
-// 客户端 Supabase 实例（用于前端）
-export const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+// 修复的客户端配置
+const clientConfig = {
   auth: {
-    persistSession: false, // 在 Workers 中不持久化会话
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
   },
-});
+  global: {
+    headers: {
+      'User-Agent': 'meilv-web-client',
+    },
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10,
+    },
+  },
+};
+
+// 修复的服务端配置
+const adminConfig = {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
+  },
+  global: {
+    headers: {
+      'User-Agent': 'meilv-web-server',
+    },
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10,
+    },
+  },
+};
+
+// 客户端 Supabase 实例（用于前端）
+export const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, clientConfig);
 
 // 服务端 Supabase 实例（用于API路由，具有更高权限）
 export const supabaseAdmin = createClient(
   supabaseUrl,
   supabaseServiceKey || supabaseAnonKey,
-  {
-    auth: {
-      persistSession: false, // 在 Workers 中不持久化会话
-    },
-  }
+  adminConfig
 );
+
+// 直接使用fetch的备用方案
+export class SupabaseFetch {
+  private baseUrl: string;
+  private apiKey: string;
+  private serviceKey?: string;
+
+  constructor() {
+    this.baseUrl = getEnvVar('NEXT_PUBLIC_SUPABASE_URL', '');
+    this.apiKey = getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY', '');
+    this.serviceKey = getEnvVar('SUPABASE_SERVICE_ROLE_KEY');
+  }
+
+  private getHeaders(useServiceKey = false) {
+    const key = useServiceKey && this.serviceKey ? this.serviceKey : this.apiKey;
+    return {
+      'apikey': key,
+      'Authorization': `Bearer ${key}`,
+      'Content-Type': 'application/json',
+      'User-Agent': 'meilv-web-fetch',
+    };
+  }
+
+  async select(table: string, columns = '*', options: any = {}) {
+    try {
+      let url = `${this.baseUrl}/rest/v1/${table}?select=${columns}`;
+
+      if (options.limit) url += `&limit=${options.limit}`;
+      if (options.offset) url += `&offset=${options.offset}`;
+      if (options.order) url += `&order=${options.order}`;
+      if (options.eq) {
+        Object.entries(options.eq).forEach(([key, value]) => {
+          url += `&${key}=eq.${value}`;
+        });
+      }
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: this.getHeaders(options.useServiceKey),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Supabase fetch error: ${response.status} ${errorText}`);
+      }
+
+      const data = await response.json();
+      return { data, error: null };
+    } catch (error) {
+      console.error('SupabaseFetch select error:', error);
+      return { data: null, error };
+    }
+  }
+
+  async insert(table: string, data: any, options: any = {}) {
+    try {
+      const response = await fetch(`${this.baseUrl}/rest/v1/${table}`, {
+        method: 'POST',
+        headers: {
+          ...this.getHeaders(options.useServiceKey),
+          'Prefer': 'return=representation',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Supabase insert error: ${response.status} ${errorText}`);
+      }
+
+      const result = await response.json();
+      return { data: result, error: null };
+    } catch (error) {
+      console.error('SupabaseFetch insert error:', error);
+      return { data: null, error };
+    }
+  }
+}
+
+// 导出备用实例
+export const supabaseFetch = new SupabaseFetch();
 
 // 检查环境变量是否正确配置
 export function checkSupabaseConfig() {
