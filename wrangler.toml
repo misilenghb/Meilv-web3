@@ -1,5 +1,5 @@
 main = ".open-next/worker.js"
-name = "meilv-web"
+name = "meilv-web3"
 compatibility_date = "2025-03-25"
 compatibility_flags = ["nodejs_compat"]
 
